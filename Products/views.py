@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from .tasks import createProds
+from .models import Products
 
 def addProducts(request):
     if request.method == 'POST':
@@ -14,4 +16,9 @@ def addProducts(request):
     return render(request, 'Products/addProducts.html', {})
 
 def dashboard(request):
-    return render(request, 'Products/dashboard.html', {})
+    products_list = Products.objects.get_queryset().order_by('productSKU')
+    paginator = Paginator(products_list, 15)
+
+    page = request.GET.get('dashboard', 1)
+    products = paginator.get_page(page)
+    return render(request, 'Products/dashboard.html', {'products': products})
