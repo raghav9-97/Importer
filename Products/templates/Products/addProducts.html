@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Classimax</title>
+  <title>Product Importer</title>
   
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
@@ -45,7 +45,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<nav class="navbar navbar-expand-lg navbar-light navigation">
-					<a class="navbar-brand" href="/products">
+					<a class="navbar-brand" href="{% url 'Gridview' stat='prod' %}">
 						<img src="{% static 'images/logo.png' %}" alt="">
 					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -58,7 +58,7 @@
 								<a class="nav-link" href="/dashboard">Dashboard
 								</a>
 							</li>
-								<a class="nav-link" href="/products">
+								<a class="nav-link" href="{% url 'Gridview' stat='prod' %}">
 									Listing
 								</a>
 						</ul>
@@ -86,13 +86,13 @@
                                       {% if not exists %}
                                       <span class="d-block font-weight-bold text-dark rounded">Drop files anywhere to upload</span>
                                     <span class="d-block">or</span>
-                                    <input type="file" class="btn btn-primary d-block text-white mt-2"  id="file-upload" name="file">
+                                    <input type="file" style="width:300px" class="btn btn-primary d-block text-white mt-2"  id="file-upload" name="file">
                                     <span class="d-block mt-2">Only .csv files are accepted.</span>
                                     <button type="submit" class="btn btn-primary mt-4">Submit</button>
                                     {% else %}
-                                    <h6 class="py-2">There already exists products in the database</h6>
+                                    <h6 class="py-2">There are already existing products in the database.</h6>
                                     <p>Do you want to delete all of them and upload a new file?</p>>
-                                    <button type="button" data-toggle="modal" data-target="#deleteaccount" class="btn btn-danger mt-4" >Delete</button>
+                                    <button type="button" data-toggle="modal" data-target="#deleteaccount" class="btn btn-danger mt-4">Delete</button>
                                   </label>
                     <div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                             aria-hidden="true">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="modal-body text-center">
                                   <img src="{% static 'images/account/Account1.png' %}" class="img-fluid mb-2" alt="">
-                                  <h6 class="py-2">Are you sure you want to delete products?</h6>
+                                  <h6 class="py-2">Are you sure you want to delete all products?</h6>
                                   <p>Do you really want to delete all these products? This process cannot be undone.</p>
                                 </div>
                                 <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
@@ -124,77 +124,6 @@
         </form>
     </div>
 </section>
-
-<!--============================
-=            Footer            =
-=============================-->
-
-<footer class="footer section section-sm">
-  <!-- Container Start -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0">
-        <!-- About -->
-        <div class="block about">
-          <!-- footer logo -->
-          <img src="{% static 'images/logo-footer.png' %}" alt="">
-          <!-- description -->
-          <p class="alt-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 offset-lg-1 col-md-3">
-        <div class="block">
-          <h4>Site Pages</h4>
-          <ul>
-            <li><a href="#">Boston</a></li>
-            <li><a href="#">How It works</a></li>
-            <li><a href="#">Deals & Coupons</a></li>
-            <li><a href="#">Articls & Tips</a></li>
-            <li><a href="terms-condition.html">Terms & Conditions</a></li>
-          </ul>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
-        <div class="block">
-          <h4>Admin Pages</h4>
-          <ul>
-            <li><a href="category.html">Category</a></li>
-            <li><a href="single.html">Single Page</a></li>
-            <li><a href="store.html">Store Single</a></li>
-            <li><a href="single-blog.html">Single Post</a>
-            </li>
-            <li><a href="blog.html">Blog</a></li>
-
-
-
-          </ul>
-        </div>
-      </div>
-      <!-- Promotion -->
-      <div class="col-lg-4 col-md-7">
-        <!-- App promotion -->
-        <div class="block-2 app-promotion">
-          <div class="mobile d-flex">
-            <a href="">
-              <!-- Icon -->
-              <img src="{% static 'images/footer/phone-icon.png' %}" alt="mobile-icon">
-            </a>
-            <p>Get the Dealsy Mobile App and Save more</p>
-          </div>
-          <div class="download-btn d-flex my-3">
-            <a href="#"><img src="{% static 'images/apps/google-play-store.png' %}" class="img-fluid" alt=""></a>
-            <a href="#" class=" ml-3"><img src="{% static 'images/apps/apple-app-store.png' %}" class="img-fluid" alt=""></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Container End -->
-</footer>
 <!-- Footer Bottom -->
 <footer class="footer-bottom">
   <!-- Container Start -->

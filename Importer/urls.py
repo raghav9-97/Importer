@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('addProducts/', prodview.addProducts, name='addingProd'),
     path('dashboard/', prodview.dashboard, name='Dashboard'),
-    path('products/', prodview.prodGrid, name="Gridview"),
+    re_path(r'^products/(?P<stat>[-\w]+)/$', prodview.prodGrid, name="Gridview"),
     path('delProducts/', prodview.delProducts, name="deleteProd"),
-    re_path(r'^prodStatus/(?P<stat>\d+)/$', prodview.productStatus, name="status"),
+    re_path(r'^(?P<identifier>[-\w]+)/$', prodview.deleteProd, name='delProd'),
 ]

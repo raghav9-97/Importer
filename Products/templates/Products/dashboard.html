@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Classimax</title>
+  <title>Product Importer</title>
   
   <!-- FAVICON -->
   <link href="img/favicon.png" rel="shortcut icon">
@@ -44,7 +44,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<nav class="navbar navbar-expand-lg navbar-light navigation">
-					<a class="navbar-brand" href="/products">
+					<a class="navbar-brand" href="{% url 'Gridview' stat='prod' %}">
 						<img src="{% static 'images/logo.png' %}" alt="">
 					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -58,7 +58,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-                  <a class="nav-link" href="/products">Listing
+                  <a class="nav-link" href="{% url 'Gridview' stat='prod' %}">Listing
                   </a>
                 </li>
 						</ul>
@@ -81,6 +81,7 @@
   <div class="container">
     <!-- Row Start -->
     <div class="row">
+      {% if products %}
       <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
         <div class="sidebar">
           <!-- User Widget -->
@@ -88,7 +89,9 @@
           <div class="widget user-dashboard-menu">
             <ul>
               <li class="active"><a href="/dashboard"><i class="fa fa-user"></i>Products</a></li>
+              {% if products %}
               <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-trash"></i>Delete all products</a></li>
+              {% endif %}
             </ul>
           </div>
 
@@ -151,7 +154,7 @@
                   <div class="">
                     <ul class="list-inline justify-content-center">
                       <li class="list-inline-item">
-                        <a class="delete" data-toggle="tooltip" data-placement="top" title="Delete" href="">
+                        <a class="delete" data-toggle="tooltip" data-placement="top" title="Delete" onclick="return confirm('Are you sure you want to delete?');" href="{% url 'delProd' identifier=prod.productSKU %}">
                           <i class="fa fa-trash"></i>
                         </a>
                       </li>
@@ -163,8 +166,7 @@
             </tbody>
           </table>
 
-        </div>
-
+        </div>        
         <!-- pagination -->
         <div class="pagination justify-content-center">
 					<nav aria-label="Page navigation example">
@@ -197,83 +199,19 @@
 					</nav>
 				</div>
         <!-- pagination -->
-
+        {% else %}
+        <div class="col-md-12">
+          <center><h4>No products available in the database.</h4></center>
+          <center><h4><a href="/addProducts"><u>Upload</u></a> a csv file now.</h4></center>
+        </div>
+        </div>
+        {% endif %}
       </div>
     </div>
     <!-- Row End -->
   </div>
   <!-- Container End -->
 </section>
-<!--============================
-=            Footer            =
-=============================-->
-
-<footer class="footer section section-sm">
-  <!-- Container Start -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0">
-        <!-- About -->
-        <div class="block about">
-          <!-- footer logo -->
-          <img src="{% static 'images/logo-footer.png' %}" alt="">
-          <!-- description -->
-          <p class="alt-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 offset-lg-1 col-md-3">
-        <div class="block">
-          <h4>Site Pages</h4>
-          <ul>
-            <li><a href="#">Boston</a></li>
-            <li><a href="#">How It works</a></li>
-            <li><a href="#">Deals & Coupons</a></li>
-            <li><a href="#">Articls & Tips</a></li>
-            <li><a href="terms-condition.html">Terms & Conditions</a></li>
-          </ul>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
-        <div class="block">
-          <h4>Admin Pages</h4>
-          <ul>
-            <li><a href="category.html">Category</a></li>
-            <li><a href="single.html">Single Page</a></li>
-            <li><a href="store.html">Store Single</a></li>
-            <li><a href="single-blog.html">Single Post</a>
-            </li>
-            <li><a href="blog.html">Blog</a></li>
-
-
-
-          </ul>
-        </div>
-      </div>
-      <!-- Promotion -->
-      <div class="col-lg-4 col-md-7">
-        <!-- App promotion -->
-        <div class="block-2 app-promotion">
-          <div class="mobile d-flex">
-            <a href="">
-              <!-- Icon -->
-              <img src="{% static 'images/footer/phone-icon.png' %}" alt="mobile-icon">
-            </a>
-            <p>Get the Dealsy Mobile App and Save more</p>
-          </div>
-          <div class="download-btn d-flex my-3">
-            <a href="#"><img src="{% static 'images/apps/google-play-store.png' %}" class="img-fluid" alt=""></a>
-            <a href="#" class=" ml-3"><img src="{% static 'images/apps/apple-app-store.png' %}" class="img-fluid" alt=""></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Container End -->
-</footer>
 <!-- Footer Bottom -->
 <footer class="footer-bottom">
   <!-- Container Start -->

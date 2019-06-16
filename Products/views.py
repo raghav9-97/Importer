@@ -28,19 +28,24 @@ def dashboard(request):
     products = paginator.get_page(page)
     return render(request, 'Products/dashboard.html', {'products': products})
 
-def prodGrid(request):
+def prodGrid(request,stat):
     products_list = Products.objects.all().order_by('productSKU')
 
     searchterm = request.GET.get('search')
     searchby = request.GET.get('dropdown')
     if searchby:
         if searchby == "productSKU":
-            products_list = products_list.filter(productSKU__icontains=searchterm).order_by('productSKU')
+            products_list = products_list.filter(productSKU__icontains=searchterm)
         if searchby == "productDesc":
-            products_list = products_list.filter(productDesc__icontains=searchterm).order_by('productSKU')
+            products_list = products_list.filter(productDesc__icontains=searchterm)
         if searchby == "productName":
-            products_list = products_list.filter(productName__icontains=searchterm).order_by('productSKU')
-
+            products_list = products_list.filter(productName__icontains=searchterm)
+    
+    if stat == 'Active':
+        products_list = products_list.filter(productActive=True)
+    elif stat == 'Inactive':
+        products_list = products_list.filter(productActive=False)
+    
     paginator = Paginator(products_list, 12)
 
     page = request.GET.get('products')
@@ -52,15 +57,6 @@ def delProducts(request):
     Products.objects.all().delete()
     return redirect('/addProducts')
 
-def productStatus(request,stat):
-    if stat == '1':
-        products_list = Products.objects.filter(productActive=True).order_by('productSKU')
-    elif stat == '0':
-        products_list = Products.objects.filter(productActive=False).order_by('productSKU')
-
-    paginator = Paginator(products_list, 12)
-
-    page = request.GET.get('products')
-    products = paginator.get_page(page)
-
-    return render(request, 'Products/productGrid.html', {'products': products})
+def deleteProd(request,identifier):
+    Products.objects.filter(productSKU=identifier).delete()
+    return redirect('/dashboard')
