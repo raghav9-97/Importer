@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('addProducts/', prodview.addProducts, name='addingProd'),
     path('dashboard/', prodview.dashboard, name='Dashboard'),
+    path('products/', prodview.prodGrid, name="Gridview"),
 ]

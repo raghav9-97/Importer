@@ -39,7 +39,6 @@
 
 <body class="body-wrapper">
 
-
 <section>
 	<div class="container">
 		<div class="row">
@@ -55,12 +54,14 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav ">
 							<li class="nav-item dropdown dropdown-slide">
-								<a class="nav-link" href="/dashboard">Dashboard
+									<a class="nav-link" href="/dashboard">Dashboard
+									</a>
+								</li>
+								
+							<li class="nav-item active">
+								<a class="nav-link" href="/products">Listing
 								</a>
 							</li>
-								<a class="nav-link" href="/products">
-									Listing
-								</a>
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item">
@@ -73,37 +74,153 @@
 		</div>
 	</div>
 </section>
-
-<section class="choose-file bg-gray py-5">
-    <div class="container">
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-            <fieldset class="border border-gary p-4 mb-7">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="choose-file text-center my-4 py-4">
-                                  <label for="file-upload">
-                                      {% if not exists %}
-                                      <span class="d-block font-weight-bold text-dark rounded">Drop files anywhere to upload</span>
-                                    <span class="d-block">or</span>
-                                    <input type="file" class="btn btn-primary d-block text-white mt-2"  id="file-upload" name="file">
-                                    <span class="d-block mt-2">Only .csv files are accepted.</span>
-                                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                                    {% else %}
-                                    <h6 class="py-2">There already exists products in the database</h6>
-                                    <p>Do you want to delete all of them and upload a new file?</p>>
-                                    <button type="submit" class="btn btn-danger mt-4">Delete</button>
-                                    {% endif %}
-                                  </label>
-                            </div>
-                        </div>
-
-                    </div>
-            </fieldset>
-        </form>
-    </div>
+<section class="page-search">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Advance Search -->
+				<div class="advance-search">
+					<form method="post">
+						{% csrf_token %}
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<input type="text" class="form-control my-2 my-lg-0" id="textarea4" name="search" placeholder="What are you looking for">
+							</div>
+							<div class="col-md-4">
+									<select name="dropdown">
+											<option>SearchBy</option>
+											<option value="productSKU">productSKU</option>
+											<option value="productDesc">productDesc</option>
+											<option value="productName">productName</option>
+										</select>
+							</div>
+							<div class="form-group col-md-2">
+								
+								<button type="submit" class="btn btn-primary">Search</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
+<section class="section-sm">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="search-result bg-gray">
+					<h2>Products</h2>
+					<p>{{products.paginator.count}} Products</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="category-search-filter">
+					<div class="row">
+						<div class="col-md-2">
+								<li class="nav-item dropdown" style="list-style-type: none;">
+										<a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											Filter <span><i class="fa fa-angle-down"></i></span>
+										</a>
+										<!-- Dropdown list -->
+										<div class="dropdown-menu">
+											<a class="dropdown-item" href="about-us.html">About Us</a>
+											<a class="dropdown-item" href="contact-us.html">Contact Us</a>
+											<a class="dropdown-item" href="user-profile.html">User Profile</a>
+											<a class="dropdown-item" href="404.html">404 Page</a>
+											<a class="dropdown-item" href="package.html">Package</a>
+											<a class="dropdown-item" href="single.html">Single Page</a>
+											<a class="dropdown-item" href="store.html">Store Single</a>
+											<a class="dropdown-item" href="single-blog.html">Single Post</a>
+											<a class="dropdown-item" href="blog.html">Blog</a>
+		
+										</div>
+									</li>						</div>
+						<div class="col-md-10">
+							<div class="view">
+								<strong>Views</strong>
+								<ul class="list-inline view-switcher">
+									<li class="list-inline-item">
+										<a href="/products" onclick="event.preventDefault();" class="text-info"><i class="fa fa-th-large"></i></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="product-grid-list">
+					<div class="row mt-30">
+						{% for prod in products %}
+						<div class="col-sm-12 col-lg-3 col-md-6">
+							<!-- product card -->
+							<div class="product-item bg-light">
+								<div class="card">
+									<div class="thumb-content">
+										<!-- <div class="price">$200</div> -->
+											<img class="card-img-top img-fluid" src="{% static 'images/products/products-1.jpg' %}" alt="Card image cap">
+										</a>
+									</div>
+									<div class="card-body">
+											<h4 class="card-title"><a href="single.html">{{prod.productName}}</a></h4>
+											<ul class="list-inline product-meta">
+												{% if prod.productActive %}
+												<li class="list-inline-item">
+													<span style="color:red"><strong>Inactive</strong></span>
+												</li>
+												{% else %}
+												<li class="list-inline-item">
+														<span style="color:green"><strong>Active</strong></span>
+													</li>
+													{% endif %}
+												</ul>
+											<p class="card-text">{{prod.productDesc}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							{% if products.has_previous %}
+							<li class="page-item">
+								<a class="page-link" href="?products={{products.previous_page_number}}" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+								</a>
+							</li>
+							{% else %}
+							<li class="page-item">
+									<a class="page-link disable" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+								{% endif %}
 
+							<li class="page-item active"><a class="page-link" href="#">{{products.number}}</a></li>
+							{% if products.has_next %}
+							<li class="page-item">
+								<a class="page-link" href="?products={{products.next_page_number}}" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+								</a>
+							</li>
+							{% else %}
+							<li class="page-item">
+									<a class="page-link disable" aria-label="Next">
+										<span aria-hidden="true">&raquo;</span>
+									</a>
+								</li>
+								{% endif %}
+							</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 <!--============================
 =            Footer            =
 =============================-->
