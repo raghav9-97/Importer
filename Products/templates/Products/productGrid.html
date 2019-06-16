@@ -44,7 +44,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<nav class="navbar navbar-expand-lg navbar-light navigation">
-					<a class="navbar-brand" href="index.html">
+					<a class="navbar-brand" href="/products">
 						<img src="{% static 'images/logo.png' %}" alt="">
 					</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -80,11 +80,10 @@
 			<div class="col-md-12">
 				<!-- Advance Search -->
 				<div class="advance-search">
-					<form method="post">
-						{% csrf_token %}
+					<form method="GET">
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<input type="text" class="form-control my-2 my-lg-0" id="textarea4" name="search" placeholder="What are you looking for">
+								<input type="text" class="form-control my-2 my-lg-0" id="textarea4" value="{{request.GET.search}}" name="search" placeholder="What are you looking for">
 							</div>
 							<div class="col-md-4">
 									<select name="dropdown">
@@ -126,18 +125,11 @@
 										</a>
 										<!-- Dropdown list -->
 										<div class="dropdown-menu">
-											<a class="dropdown-item" href="about-us.html">About Us</a>
-											<a class="dropdown-item" href="contact-us.html">Contact Us</a>
-											<a class="dropdown-item" href="user-profile.html">User Profile</a>
-											<a class="dropdown-item" href="404.html">404 Page</a>
-											<a class="dropdown-item" href="package.html">Package</a>
-											<a class="dropdown-item" href="single.html">Single Page</a>
-											<a class="dropdown-item" href="store.html">Store Single</a>
-											<a class="dropdown-item" href="single-blog.html">Single Post</a>
-											<a class="dropdown-item" href="blog.html">Blog</a>
-		
+											<a class="dropdown-item" href="{% url 'status' stat=1 %}">Active</a>
+											<a class="dropdown-item" href="{% url 'status' stat=0 %}">Inactive</a>				
 										</div>
-									</li>						</div>
+									</li>						
+								</div>
 						<div class="col-md-10">
 							<div class="view">
 								<strong>Views</strong>
@@ -167,11 +159,11 @@
 											<ul class="list-inline product-meta">
 												{% if prod.productActive %}
 												<li class="list-inline-item">
-													<span style="color:red"><strong>Inactive</strong></span>
+													<span style="color:green"><strong>Active</strong></span>
 												</li>
 												{% else %}
 												<li class="list-inline-item">
-														<span style="color:green"><strong>Active</strong></span>
+														<span style="color:red"><strong>Inactive</strong></span>
 													</li>
 													{% endif %}
 												</ul>
@@ -188,7 +180,7 @@
 						<ul class="pagination">
 							{% if products.has_previous %}
 							<li class="page-item">
-								<a class="page-link" href="?products={{products.previous_page_number}}" aria-label="Previous">
+								<a class="page-link" href="?products={{products.previous_page_number}}{% if request.GET.search %}&search={{request.GET.search}}{% endif %}{% if request.GET.dropdown %}&dropdown={{request.GET.dropdown}}{% endif %}" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
 								</a>
 							</li>
@@ -203,7 +195,7 @@
 							<li class="page-item active"><a class="page-link" href="#">{{products.number}}</a></li>
 							{% if products.has_next %}
 							<li class="page-item">
-								<a class="page-link" href="?products={{products.next_page_number}}" aria-label="Next">
+								<a class="page-link" href="?products={{products.next_page_number}}{% if request.GET.search %}&search={{request.GET.search}}{% endif %}{% if request.GET.dropdown %}&dropdown={{request.GET.dropdown}}{% endif %}" aria-label="Next">
 									<span aria-hidden="true">&raquo;</span>
 								</a>
 							</li>

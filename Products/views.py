@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.db.models import Q
 from .tasks import createProds
 from .models import Products
 
@@ -28,21 +29,38 @@ def dashboard(request):
     return render(request, 'Products/dashboard.html', {'products': products})
 
 def prodGrid(request):
-    if request.method == 'POST':
-        drop = request.POST['dropdown']
-        searchterm = request.POST['search']
-        if drop == 'productSKU':
-            products_list = Products.objects.filter(productSKU__icontains=searchterm).order_by('productSKU')
-        elif drop == 'productName':
-            products_list = Products.objects.filter(productName__icontains=searchterm).order_by('productSKU')
-        else:
-            products_list = Products.objects.filter(productDesc__icontains=searchterm).order_by('productSKU')    
-    else:
-        products_list = Products.objects.get_queryset().order_by('productSKU')
+    products_list = Products.objects.all().order_by('productSKU')
+
+    searchterm = request.GET.get('search')
+    searchby = request.GET.get('dropdown')
+    if searchby:
+        if searchby == "productSKU":
+            products_list = products_list.filter(productSKU__icontains=searchterm).order_by('productSKU')
+        if searchby == "productDesc":
+            products_list = products_list.filter(productDesc__icontains=searchterm).order_by('productSKU')
+        if searchby == "productName":
+            products_list = products_list.filter(productName__icontains=searchterm).order_by('productSKU')
 
     paginator = Paginator(products_list, 12)
 
-    page = request.GET.get('products', 1)
+    page = request.GET.get('products')
+    products = paginator.get_page(page)
+
+    return render(request, 'Products/productGrid.html', {'products': products})
+
+def delProducts(request):
+    Products.objects.all().delete()
+    return redirect('/addProducts')
+
+def productStatus(request,stat):
+    if stat == '1':
+        products_list = Products.objects.filter(productActive=True).order_by('productSKU')
+    elif stat == '0':
+        products_list = Products.objects.filter(productActive=False).order_by('productSKU')
+
+    paginator = Paginator(products_list, 12)
+
+    page = request.GET.get('products')
     products = paginator.get_page(page)
 
     return render(request, 'Products/productGrid.html', {'products': products})

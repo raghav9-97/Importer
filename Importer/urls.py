@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from Products import views as prodview
 
 urlpatterns = [
@@ -22,4 +22,6 @@ urlpatterns = [
     path('addProducts/', prodview.addProducts, name='addingProd'),
     path('dashboard/', prodview.dashboard, name='Dashboard'),
     path('products/', prodview.prodGrid, name="Gridview"),
+    path('delProducts/', prodview.delProducts, name="deleteProd"),
+    re_path(r'^prodStatus/(?P<stat>\d+)/$', prodview.productStatus, name="status"),
 ]
