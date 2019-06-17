@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.contrib import messages
 from .tasks import createProds
 from .models import Products
 
@@ -13,7 +13,8 @@ def addProducts(request):
         csv_file = request.FILES['file']
 
         if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'The uploaded file is not a csv file.')
+            messages.error(request, 'The file is not a csv file.')
+            return redirect('/addProducts')
 
         dataset = csv_file.read().decode('UTF-8')
         createProds.delay(dataset)

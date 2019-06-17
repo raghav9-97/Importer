@@ -74,6 +74,12 @@
 	</div>
 </section>
 
+{% for message in messages %}
+<div class="alert alert-success">
+  <a class="close" href="#" data-dismiss="alert">x</a>
+  {{message}}
+</div>
+{% endfor %}
 <section class="choose-file bg-gray py-5">
     <div class="container">
         <form method="post" enctype="multipart/form-data">
